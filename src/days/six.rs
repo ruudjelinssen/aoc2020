@@ -31,10 +31,7 @@ pub fn solve() {
         let mut answers: Vec<HashSet<char>> = Vec::new();
 
         for line in group {
-            let mut set: HashSet<char> = HashSet::new();
-            for q in line.chars() {
-                set.insert(q);
-            }
+            let set: HashSet<char> = line.chars().collect();
 
             if set.len() > 0 {
                 answers.push(set);

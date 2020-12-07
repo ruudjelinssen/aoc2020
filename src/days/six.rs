@@ -13,14 +13,12 @@ pub fn solve() {
     let mut total_part1 = 0;
 
     for group in &groups {
-        let mut answers: HashSet<char> = HashSet::new();
-
-        for line in group {
-            for q in line.chars() {
-                answers.insert(q);
-            }
-        }
-        total_part1 += answers.len();
+        total_part1 += group
+            .iter()
+            .map(|x| x.chars())
+            .flatten()
+            .collect::<HashSet<char>>()
+            .len();
     }
 
     println!("Answer to day 6 part 1 is {}", total_part1);
@@ -30,19 +28,16 @@ pub fn solve() {
     for group in &groups {
         let mut answers: Vec<HashSet<char>> = Vec::new();
 
-        for line in group {
-            let set: HashSet<char> = line.chars().collect();
-
-            if set.len() > 0 {
-                answers.push(set);
-            }
+        for line in group.iter().filter(|x| !x.is_empty()) {
+            answers.push(line.chars().collect());
         }
 
         total_part2 += {
-            let mut set = answers.get(0).cloned().unwrap();
-            for s in answers {
-                set = set.intersection(&s).cloned().collect();
-            }
+            let set = answers
+                .iter()
+                .fold(answers.get(0).unwrap().clone(), |acc, x| {
+                    acc.intersection(&x).cloned().collect()
+                });
             set.len()
         }
     }

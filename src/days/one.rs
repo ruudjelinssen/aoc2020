@@ -12,6 +12,6 @@ pub fn solve() {
         .find(|comb| comb.iter().fold(0, |acc, x| acc + x) == 2020)
         .map(|comb| comb.iter().fold(1, |acc, x| acc * x))
     {
-        println!("Answer for day 1 is: {}", answer);
+        println!("Answer to day 1 part 1 is {}", answer);
     }
 }

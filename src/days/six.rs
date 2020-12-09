@@ -44,10 +44,3 @@ pub fn solve() {
 
     println!("Answer to day 6 part 2 is {}", total_part2);
 }
-
-fn haha() {
-    let input = "12".parse().unwrap();
-    test(input);
-}
-
-fn test(input: u32) {}

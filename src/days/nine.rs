@@ -12,7 +12,7 @@ pub fn solve() {
     let answer = part1(&numbers, PART1_PREAMBLE);
     println!("Answer to day 9 part 1 is {}", answer.unwrap());
 
-    let answer = part2(&numbers, PART1_PREAMBLE);
+    let answer = part2(&numbers, answer.unwrap());
     println!("Answer to day 9 part 2 is {}", answer.unwrap());
 }
 
@@ -32,19 +32,19 @@ fn part1(numbers: &[u64], preamble: usize) -> Option<u64> {
     None
 }
 
-fn part2(numbers: &[u64], preamble: usize) -> Option<u64> {
-    if let Some(target) = part1(numbers, preamble) {
-        for i in 0..numbers.len() {
-            for n in 2..numbers.len() {
-                let comb: Vec<u64> = numbers.iter().skip(i).take(n).map(|&x| x).collect();
-                let sum: u64 = comb.iter().sum();
-                match sum {
-                    s if s == target => {
-                        return Some(comb.iter().min().unwrap() + comb.iter().max().unwrap())
-                    }
-                    s if s > target => break,
-                    _ => {}
+fn part2(numbers: &[u64], target: u64) -> Option<u64> {
+    for i in 0..numbers.len() {
+        for n in 2..numbers.len() {
+            let sum: u64 = numbers[i..i + n].iter().sum();
+            match sum {
+                s if s == target => {
+                    return Some(
+                        numbers[i..i + n].iter().min().unwrap()
+                            + numbers[i..i + n].iter().max().unwrap(),
+                    )
                 }
+                s if s > target => break,
+                _ => {}
             }
         }
     }

@@ -5,7 +5,13 @@
       "adapter": "CodeLLDB",
       "configuration": {
         "request": "launch",
-        "program": "${workspaceRoot}/target/debug/aoc2020"
+        "cwd": "${workspaceRoot}",
+        "program": "${workspaceRoot}/target/debug/test",
+        "cargo": {
+          "args": [
+            "test"
+          ]
+        }
       }
     }
   }

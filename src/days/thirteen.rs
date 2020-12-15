@@ -28,7 +28,8 @@ pub fn solve() {
 
     let (timestamp, buses) = parse_input(&input);
 
-    println!("Answer to day 13 part 1 is {}", part1(timestamp, &buses))
+    println!("Answer to day 13 part 1 is {}", part1(timestamp, &buses));
+    println!("Answer to day 13 part 2 is {}", part2(&buses));
 }
 
 fn parse_input(input: &str) -> (u64, Vec<Bus>) {
@@ -67,15 +68,43 @@ fn part1(arrival: u64, buses: &[Bus]) -> u64 {
     }
 }
 
+fn part2(buses: &[Bus]) -> u64 {
+    let mut lcm: u64 = 1;
+    let mut solution = 0;
+
+    for (i, bus) in buses.iter().enumerate() {
+        match bus {
+            Bus::OOS => {}
+            Bus::ID(interval) => {
+                for time in (solution..u64::MAX).step_by(lcm as usize) {
+                    if (time as usize + i) % *interval as usize == 0 {
+                        solution = time;
+                        lcm *= interval;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    solution
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{parse_input, part1};
+    use super::{parse_input, part1, part2};
+
+    static INPUT: &str = "939
+7,13,x,x,59,x,31,19";
 
     #[test]
     fn example_part1() {
-        let input = "939
-7,13,x,x,59,x,31,19";
-        let (arrival, buses) = parse_input(&input);
+        let (arrival, buses) = parse_input(&INPUT);
         assert_eq!(part1(arrival, &buses), 295);
+    }
+
+    #[test]
+    fn example_part2() {
+        let (_, buses) = parse_input(&INPUT);
+        assert_eq!(part2(&buses), 1068781);
     }
 }
